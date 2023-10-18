@@ -1,12 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace CriptoSofttek.Entities
+﻿namespace CriptoSofttek.DTOs
 {
-    public class User
+    public class UserDTO
     {
-        public User() { }
-
-        [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
