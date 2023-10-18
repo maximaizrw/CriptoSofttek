@@ -19,7 +19,7 @@ namespace CriptoSofttek.DataAccess
 
             foreach (var seeder in seeders)
             {
-                seeder.SeedDatabse(modelBuilder);
+                seeder.SeedDatabase(modelBuilder);
             }
             base.OnModelCreating(modelBuilder);
         }
