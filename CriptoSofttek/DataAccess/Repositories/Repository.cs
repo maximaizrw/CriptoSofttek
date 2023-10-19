@@ -10,5 +10,12 @@ namespace CriptoSofttek.DataAccess.Repositories
         {
             _context = context;
         }
+
+        public virtual async Task<bool> Add(T entity)
+        {
+            await _context.Set<T>().AddAsync(entity);
+            return true;
+        }
+
     }
 }

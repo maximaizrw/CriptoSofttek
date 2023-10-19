@@ -9,6 +9,8 @@ namespace CriptoSofttek.DataAccess
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<FiatAccount> FiatAccounts { get; set; }
+        public DbSet<CryptoAccount> CryptoAccounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
