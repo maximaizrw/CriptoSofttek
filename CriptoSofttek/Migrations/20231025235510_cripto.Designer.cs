@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CriptoSofttek.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231025224823_cripto")]
+    [Migration("20231025235510_cripto")]
     partial class cripto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
