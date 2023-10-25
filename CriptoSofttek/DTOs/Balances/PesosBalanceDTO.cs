@@ -1,10 +1,10 @@
 ﻿namespace CriptoSofttek.DTOs
 {
-    public class PesosBalanceDTO
+    public class FiatBalanceDTO
     {
-        public string AccountNumber { get; set; }
+        public int AccountNumber { get; set; }
         public string Alias { get; set; }
         public string CBU { get; set; }
-        public decimal PesosBalance { get; set; }
+        public decimal Balance { get; set; }
     }
 }

@@ -2,7 +2,10 @@
 using CriptoSofttek.DTOs;
 using CriptoSofttek.Entities;
 using CriptoSofttek.Helpers;
+using CriptoSofttek.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace CriptoSofttek.DataAccess.Repositories
 {
@@ -31,5 +34,11 @@ namespace CriptoSofttek.DataAccess.Repositories
         {
             return await _context.Users.SingleOrDefaultAsync(x => x.Email == dto.Email && x.Password == PasswordEncryptHelper.EncryptPassword(dto.Password, dto.Email));
         }
+        public async Task<User?> GetUserFromClaims(ClaimsPrincipal claims)
+        {
+            var email = claims.FindFirst(ClaimTypes.Email)?.Value;
+            return await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
+        }
+
     }
 }

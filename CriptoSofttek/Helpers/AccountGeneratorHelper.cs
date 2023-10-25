@@ -4,10 +4,11 @@ namespace CriptoSofttek.Helpers
 {
     public class AccountGeneratorHelper
     {
-        public static string GenerateAccountNumber(string email)
+        public static int GenerateAccountNumber()
         {
-            string accountNumber = email.Substring(0, 3) + email.Substring(email.Length - 3, 3) + email.Length.ToString();
+             int accountNumber = new Random().Next(100000000, 999999999);
             return accountNumber;
+            
         }
 
         public static string GenerateAlias(string lastName, string email)
@@ -18,9 +19,12 @@ namespace CriptoSofttek.Helpers
 
         public static string GenerateCBU()
         {
-            int CBU = new Random().Next(100000000, 999999999);
-            return CBU.ToString();
+            //Generar CBU
+            string CBU = "285" + new Random().Next(100000000, 999999999).ToString() + new Random().Next(100000000, 999999999).ToString();
+            return CBU;
+           
         }
+
 
 
 

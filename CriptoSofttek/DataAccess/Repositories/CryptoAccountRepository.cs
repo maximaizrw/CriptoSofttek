@@ -14,6 +14,11 @@ namespace CriptoSofttek.DataAccess.Repositories
             return await _context.CryptoAccounts.FirstOrDefaultAsync(x => x.UserId == id);
         }
 
+        public async Task<IEnumerable<CryptoAccount>> GetCryptoAccountsByUserId(int userId)
+        {
+            return await _context.CryptoAccounts.Where(x => x.UserId == userId).ToListAsync();
+        }
+
         public async Task<CryptoAccount> GetCryptoAccountByUUID(string uuid)
         {
             return await _context.CryptoAccounts.FirstOrDefaultAsync(x => x.UUID.Equals(uuid));

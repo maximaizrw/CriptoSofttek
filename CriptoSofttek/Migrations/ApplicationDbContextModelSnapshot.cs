@@ -53,9 +53,8 @@ namespace CriptoSofttek.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("AccountNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AccountNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("Alias")
                         .IsRequired()
@@ -66,7 +65,7 @@ namespace CriptoSofttek.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PesosBalance")
-                        .HasColumnType("decimal(18,4)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("USDBalance")
                         .HasColumnType("decimal(18,2)");
@@ -120,21 +119,9 @@ namespace CriptoSofttek.Migrations
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<int>("CryptoAccountId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CryptoAccountId1")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("FiatAccountId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("FiatAccountId1")
-                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -150,10 +137,6 @@ namespace CriptoSofttek.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CryptoAccountId1");
-
-                    b.HasIndex("FiatAccountId1");
-
                     b.ToTable("Users");
 
                     b.HasData(
@@ -161,28 +144,11 @@ namespace CriptoSofttek.Migrations
                         {
                             Id = 1,
                             Activo = false,
-                            CryptoAccountId = 0,
                             Email = "maxi@gmail.com",
-                            FiatAccountId = 0,
                             FirstName = "Maxi",
                             LastName = "Maiz",
                             Password = "7d61ee0ed586257cff94117dcd15a63b5c2216385cba22a8393d7376feb515c0"
                         });
-                });
-
-            modelBuilder.Entity("CriptoSofttek.Entities.User", b =>
-                {
-                    b.HasOne("CriptoSofttek.Entities.CryptoAccount", "CryptoAccount")
-                        .WithMany()
-                        .HasForeignKey("CryptoAccountId1");
-
-                    b.HasOne("CriptoSofttek.Entities.FiatAccount", "FiatAccount")
-                        .WithMany()
-                        .HasForeignKey("FiatAccountId1");
-
-                    b.Navigation("CryptoAccount");
-
-                    b.Navigation("FiatAccount");
                 });
 #pragma warning restore 612, 618
         }
