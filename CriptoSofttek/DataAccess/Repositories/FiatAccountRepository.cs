@@ -10,7 +10,7 @@ namespace CriptoSofttek.DataAccess.Repositories
         {
         }
 
-        public async Task<bool> AccountExists(string accountNumber)
+        public async Task<bool> AccountExists(int accountNumber)
         {
             return await _context.FiatAccounts.AnyAsync(x => x.AccountNumber == accountNumber);
         }
@@ -18,6 +18,15 @@ namespace CriptoSofttek.DataAccess.Repositories
         public async Task<FiatAccount> GetFiatAccountByUserId(int userId)
         {
             return await _context.FiatAccounts.FirstOrDefaultAsync(x => x.UserId == userId);
+        }
+
+        public async Task<IEnumerable<FiatAccount>> GetFiatAccountsByUserId(int userId)
+        {
+            return await _context.FiatAccounts.Where(x => x.UserId == userId).ToListAsync();
+        }
+        public async Task<FiatAccount> GetFiatAccountByAccountNumber(int accountNumber)
+        {
+            return await _context.FiatAccounts.FirstOrDefaultAsync(x => x.AccountNumber == accountNumber);
         }
 
         public async Task<FiatAccount> GetFiatAccountByCBU(string cbu)

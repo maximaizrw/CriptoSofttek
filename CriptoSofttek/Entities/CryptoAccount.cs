@@ -7,7 +7,7 @@ namespace CriptoSofttek.Entities
     {
         public CryptoAccount() { }
 
-        public CryptoAccount(RegisterDTO dto, int id)
+        public CryptoAccount(int id)
         {
             UserId = id;
             UUID = Guid.NewGuid().ToString();
