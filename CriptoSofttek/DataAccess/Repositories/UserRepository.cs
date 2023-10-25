@@ -12,13 +12,15 @@ namespace CriptoSofttek.DataAccess.Repositories
         {
         }
 
-        //Crear update y modificar el id de las cuentas
-        
-        
-        
         public async Task<int> GetIdByEmail(string email)
         {
             return await _context.Users.Where(x => x.Email == email).Select(x => x.Id).FirstOrDefaultAsync();
+        }
+
+        // Obtener usuario por email
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            return await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
         }
         
         public async Task<bool> UserExists(string email)

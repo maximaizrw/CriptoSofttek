@@ -1,4 +1,5 @@
 ﻿using CriptoSofttek.DTOs;
+using CriptoSofttek.Helpers;
 using System.ComponentModel.DataAnnotations;
 
 namespace CriptoSofttek.Entities
@@ -12,7 +13,7 @@ namespace CriptoSofttek.Entities
             FirstName = dto.FirstName;
             LastName = dto.LastName;
             Email = dto.Email;
-            Password = dto.Password;
+            Password = PasswordEncryptHelper.EncryptPassword(dto.Password, dto.Email);
             Activo = true;
             FiatAccountId = 0;
             CryptoAccountId = 0;

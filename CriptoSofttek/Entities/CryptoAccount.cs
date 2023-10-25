@@ -1,4 +1,5 @@
 ﻿using CriptoSofttek.DTOs;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CriptoSofttek.Entities
 {
@@ -16,6 +17,7 @@ namespace CriptoSofttek.Entities
         public int Id { get; set; }
         public int UserId { get; set; }
         public string UUID { get; set; }
+        [Column(TypeName = "decimal(18,6)")]
         public decimal Balance { get; set; }
 
     }
