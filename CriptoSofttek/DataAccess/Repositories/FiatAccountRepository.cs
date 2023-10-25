@@ -14,5 +14,18 @@ namespace CriptoSofttek.DataAccess.Repositories
         {
             return await _context.FiatAccounts.AnyAsync(x => x.AccountNumber == accountNumber);
         }
+
+        public async Task<FiatAccount> GetFiatAccountByUserId(int userId)
+        {
+            return await _context.FiatAccounts.FirstOrDefaultAsync(x => x.UserId == userId);
+        }
+
+        public async Task<FiatAccount> GetFiatAccountByCBU(string cbu)
+        {
+            return await _context.FiatAccounts.FirstOrDefaultAsync(x => x.CBU.Equals(cbu));
+        }
+
+
+
     }
 }

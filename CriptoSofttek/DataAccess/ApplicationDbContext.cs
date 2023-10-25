@@ -11,6 +11,7 @@ namespace CriptoSofttek.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<FiatAccount> FiatAccounts { get; set; }
         public DbSet<CryptoAccount> CryptoAccounts { get; set; }
+        public DbSet<Movement> Movements { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

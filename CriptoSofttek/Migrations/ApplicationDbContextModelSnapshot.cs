@@ -31,7 +31,7 @@ namespace CriptoSofttek.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,6)");
 
                     b.Property<string>("UUID")
                         .IsRequired()
@@ -61,8 +61,12 @@ namespace CriptoSofttek.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CBU")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("PesosBalance")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18,4)");
 
                     b.Property<decimal>("USDBalance")
                         .HasColumnType("decimal(18,2)");
@@ -73,6 +77,36 @@ namespace CriptoSofttek.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FiatAccounts");
+                });
+
+            modelBuilder.Entity("CriptoSofttek.Entities.Movement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TypeMovement")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Movements");
                 });
 
             modelBuilder.Entity("CriptoSofttek.Entities.User", b =>

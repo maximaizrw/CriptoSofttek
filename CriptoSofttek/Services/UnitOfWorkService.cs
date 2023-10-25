@@ -9,6 +9,7 @@ namespace CriptoSofttek.Services
         public UserRepository UserRepository { get; private set; }
         public FiatAccountRepository FiatAccountRepository { get; private set; }
         public CryptoAccountRepository CryptoAccountRepository { get; private set; }
+        public MovementRepository MovementRepository { get; private set; }
 
         public UnitOfWorkService(ApplicationDbContext context)
         {
@@ -16,6 +17,7 @@ namespace CriptoSofttek.Services
             UserRepository = new UserRepository(_context);
             FiatAccountRepository = new FiatAccountRepository(_context);
             CryptoAccountRepository = new CryptoAccountRepository(_context);
+            MovementRepository = new MovementRepository(_context);
         }
 
         public Task<int> Complete()

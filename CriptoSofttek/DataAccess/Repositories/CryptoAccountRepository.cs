@@ -1,4 +1,5 @@
 ﻿using CriptoSofttek.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CriptoSofttek.DataAccess.Repositories
 {
@@ -6,6 +7,16 @@ namespace CriptoSofttek.DataAccess.Repositories
     {
         public CryptoAccountRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public async Task<CryptoAccount> GetCryptoAccountByUserId(int id)
+        {
+            return await _context.CryptoAccounts.FirstOrDefaultAsync(x => x.UserId == id);
+        }
+
+        public async Task<CryptoAccount> GetCryptoAccountByUUID(string uuid)
+        {
+            return await _context.CryptoAccounts.FirstOrDefaultAsync(x => x.UUID.Equals(uuid));
         }
     }
 }
