@@ -108,9 +108,11 @@ namespace CriptoSofttek.Controllers
         }
 
         /// <summary>
-        /// Depositar dinero en cuenta fiduciaria en pesos y usd
+        /// Retirar dinero de cuenta fiduciaria en pesos y usd
         /// </summary>
-        /// <param name="accountNumber" name="amount" name="currency"></param>
+        /// <param name="accountNumber"></param>
+        /// <param name="amount"></param>
+        /// <param name="currency"></param>
         /// <returns></returns>
         [HttpPost("withdraw")]
         public async Task<IActionResult> Withdraw(int accountNumber, decimal amount, int currency)

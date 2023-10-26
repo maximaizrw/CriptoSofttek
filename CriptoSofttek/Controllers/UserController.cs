@@ -44,7 +44,7 @@ namespace CriptoSofttek.Controllers
             var user = await _unitOfWork.UserRepository.GetUserFromClaims(User);
             return Ok(user);
         }
-        
+
         /// <summary>
         /// Transferir dinero a cuentas de terceros
         /// </summary>
@@ -55,49 +55,61 @@ namespace CriptoSofttek.Controllers
         public async Task<IActionResult> Transfer(TransferDTO dto)
         {
             var user = await _unitOfWork.UserRepository.GetUserFromClaims(User);
-            var fiatAccount = await _unitOfWork.FiatAccountRepository.GetFiatAccountByCBU(dto.CBUOrUUID);
-            if (fiatAccount.UserId != user.Id) return BadRequest("La cuenta no pertenece al usuario");
-            var cryptoAccount = await _unitOfWork.CryptoAccountRepository.GetCryptoAccountByUUID(dto.CBUOrUUID);
-            if (dto.Currency == 1)
+            var fiatAccount = new FiatAccount();
+            var cryptoAccount = new CryptoAccount();
+            if (dto.CBUOrUUIDDestination == dto.CBUOrUUID) return BadRequest("No se puede transferir a la misma cuenta");
+            switch (dto.Currency)
             {
-                if (dto.CBUOrUUIDDestination == dto.CBUOrUUID) return BadRequest("No se puede transferir a la misma cuenta");
-                if (fiatAccount.PesosBalance < dto.Amount) return BadRequest("No tiene saldo suficiente");
-                fiatAccount.PesosBalance -= dto.Amount;
-                await _unitOfWork.Complete();
-                var accountTo = await _unitOfWork.FiatAccountRepository.GetFiatAccountByCBU(dto.CBUOrUUIDDestination);
-                accountTo.PesosBalance += dto.Amount;
-                await _unitOfWork.MovementRepository.SaveTransaction(user.Id, dto.Amount, "Pesos", "Transferencia");
-                await _unitOfWork.Complete();
-                return Ok();
+                case 1:
+                    fiatAccount = await _unitOfWork.FiatAccountRepository.GetFiatAccountByCBU(dto.CBUOrUUID);
+                    if (fiatAccount.UserId != user.Id) return BadRequest("La cuenta no pertenece al usuario");
+                    if (fiatAccount.PesosBalance < dto.Amount)
+                    {
+                        return BadRequest("No tiene saldo suficiente");
+                    }
+                    else
+                    {
+                        fiatAccount.PesosBalance -= dto.Amount;
+                        var accountTo = await _unitOfWork.FiatAccountRepository.GetFiatAccountByCBU(dto.CBUOrUUIDDestination);
+                        accountTo.PesosBalance += dto.Amount;
+                        await _unitOfWork.MovementRepository.SaveTransaction(user.Id, dto.Amount, "Pesos", "Transferencia");
+                    }
+                    break;
+                case 2:
+                    fiatAccount = await _unitOfWork.FiatAccountRepository.GetFiatAccountByCBU(dto.CBUOrUUID);
+                    if (fiatAccount.UserId != user.Id) return BadRequest("La cuenta no pertenece al usuario");
+                    if (fiatAccount.USDBalance < dto.Amount)
+                    {
+                        return BadRequest("No tiene saldo suficiente");
+                    }
+                    else
+                    {
+                        fiatAccount.USDBalance -= dto.Amount;
+                        var accountTo = await _unitOfWork.FiatAccountRepository.GetFiatAccountByCBU(dto.CBUOrUUIDDestination);
+                        accountTo.USDBalance += dto.Amount;
+                        await _unitOfWork.MovementRepository.SaveTransaction(user.Id, dto.Amount, "USD", "Transferencia");
+                    }
+                    break;
+                case 3:
+                    cryptoAccount = await _unitOfWork.CryptoAccountRepository.GetCryptoAccountByUUID(dto.CBUOrUUID);
+                    if (cryptoAccount.UserId != user.Id) return BadRequest("La cuenta no pertenece al usuario");
+                    if (cryptoAccount.Balance < dto.Amount)
+                    {
+                        return BadRequest("No tiene saldo suficiente");
+                    }
+                    else
+                    {
+                        cryptoAccount.Balance -= dto.Amount;
+                        var accountTo = await _unitOfWork.CryptoAccountRepository.GetCryptoAccountByUUID(dto.CBUOrUUIDDestination);
+                        accountTo.Balance += dto.Amount;
+                        await _unitOfWork.MovementRepository.SaveTransaction(user.Id, dto.Amount, "BTC", "Transferencia");
+                    }
+                    break;
+                default:
+                    return BadRequest("Moneda no valida");
             }
-            else if (dto.Currency == 2)
-            {
-                if (dto.CBUOrUUIDDestination == dto.CBUOrUUID) return BadRequest("No se puede transferir a la misma cuenta");
-                if (fiatAccount.USDBalance < dto.Amount) return BadRequest("No tiene saldo suficiente");
-                fiatAccount.USDBalance -= dto.Amount;
-                await _unitOfWork.Complete();
-                var accountTo = await _unitOfWork.FiatAccountRepository.GetFiatAccountByCBU(dto.CBUOrUUID);
-                accountTo.USDBalance += dto.Amount;
-                await _unitOfWork.MovementRepository.SaveTransaction(user.Id, dto.Amount, "USD", "Transferencia");
-                await _unitOfWork.Complete();
-                return Ok();
-            }
-            else if (dto.Currency == 3)
-            {
-                if (dto.CBUOrUUIDDestination == dto.CBUOrUUID) return BadRequest("No se puede transferir a la misma cuenta");
-                if (cryptoAccount.Balance < dto.Amount) return BadRequest("No tiene saldo suficiente");
-                cryptoAccount.Balance -= dto.Amount;
-                await _unitOfWork.Complete();
-                var accountTo = await _unitOfWork.CryptoAccountRepository.GetCryptoAccountByUUID(dto.CBUOrUUIDDestination);
-                accountTo.Balance += dto.Amount;
-                await _unitOfWork.MovementRepository.SaveTransaction(user.Id, dto.Amount, "BTC", "Transferencia");
-                await _unitOfWork.Complete();
-                return Ok();
-            }
-            else
-            {
-                return BadRequest("Moneda no valida");
-            }
+            await _unitOfWork.Complete();
+            return Ok();
         }
 
 

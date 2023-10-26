@@ -14,6 +14,10 @@ namespace CriptoSofttek.Controllers
         {
             _unitOfWork = unitOfWork;
         }
+        /// <summary>
+        /// Obtener ultimos movimientos de la cuenta
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
