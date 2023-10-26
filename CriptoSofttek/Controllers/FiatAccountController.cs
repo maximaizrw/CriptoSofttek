@@ -2,6 +2,7 @@
 using CriptoSofttek.DTOs.Balances;
 using CriptoSofttek.Entities;
 using CriptoSofttek.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -9,6 +10,7 @@ namespace CriptoSofttek.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class FiatAccountController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
