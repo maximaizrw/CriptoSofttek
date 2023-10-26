@@ -1,6 +1,7 @@
 ﻿using CriptoSofttek.DTOs;
 using CriptoSofttek.Entities;
 using CriptoSofttek.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CriptoSofttek.Controllers
@@ -39,6 +40,7 @@ namespace CriptoSofttek.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetCurrentUser()
         {
             var user = await _unitOfWork.UserRepository.GetUserFromClaims(User);
@@ -51,6 +53,7 @@ namespace CriptoSofttek.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         [Route("Transfer")]
         public async Task<IActionResult> Transfer(TransferDTO dto)
         {
@@ -111,11 +114,5 @@ namespace CriptoSofttek.Controllers
             await _unitOfWork.Complete();
             return Ok();
         }
-
-
-
-
-
-
     }
 }

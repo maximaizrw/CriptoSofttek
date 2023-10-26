@@ -1,4 +1,5 @@
 ﻿using CriptoSofttek.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -6,14 +7,15 @@ namespace CriptoSofttek.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class MovementController : ControllerBase
     {
         private readonly IUnitOfWork _unitOfWork;
-
         public MovementController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
+
         /// <summary>
         /// Obtener ultimos movimientos de la cuenta
         /// </summary>
